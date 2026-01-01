@@ -1,1 +1,189 @@
-<h1>search</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<section id="showcase-inner" class="showcase-search text-white py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-12">
+            <form action="{% url 'listings:search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input
+                    type="text"
+                    name="keywords"
+                    class="form-control"
+                    placeholder="Keyword (Clinic, Doctor, City name, Town name, etc)"
+                    value="{{values.keywords}}"
+                  />
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">District</label>
+                  <select name="district" class="form-control">
+                    <option selected="true" disabled="disabled">
+                      District (All)
+                    </option>
+                    {% for key,value in district_choices.items %}
+                    <option value="{{ key }}"{% if values.district == key %} selected="true" {% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Bedrooms</label>
+                  <select name="rooms" class="form-control">
+                    <option selected="true" disabled="disabled">
+                      Number of Rooms (All)
+                    </option>
+                     {% for key,value in rooms_choices.items %}
+                    <option value="{{ key }}"{% if values.rooms == key %} selected="true" {% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <select name="room_type" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">
+                      Room Type (All)
+                    </option>
+                     {% for key,value in room_choices.items %}
+                    <option value="{{ key }}"{% if values.room_type == key %} selected="true" {% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">
+                Submit form
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+</section>
+
+<!-- Breadcrumb -->
+<section id="bc" class="mt-3">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'pages:index' %}"> <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'listings:index' %}">Browse Listings</a>
+            </li>
+            <li class="breadcrumb-item active">Search Results</li>
+          </ol>
+        </nav>
+      </div>
+</section>
+
+<!-- Listings -->
+<section id="listings" class="py-4">
+      <div class="container">
+        <div class="row">
+          {% if listings %}
+          {% for listing in listings %}          
+          <!-- Listing 1 -->
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card listing-preview">
+              <img
+                class="card-img-top"
+                src="{{ listing.photo_main.url }}"
+                alt=""
+              />
+              <div class="card-img-overlay">
+              </div>
+              <div class="card-body">
+                <div class="listing-heading text-center">
+                  <h4 class="text-primary">{{ listing.title }}</h4>
+                  <p>
+                    <i class="fas fa-map-marker text-secondary"></i> {{listing.district}}
+                  </p>
+                </div>
+                <hr />
+                <div class="row py-2 text-secondary">
+                  <div class="col-6">
+                    <i class="fas fa-th-large"></i> {{listing.service|apnumber|capfirst}} service(s)
+                  </div>
+                  <div class="col-6">
+                    <i class="fas fa-dumbbell"></i> Treatment 
+                  </div>
+                </div>
+                <div class="row py-2 text-secondary">
+                  <div class="col-6">
+                    <i class="fas fa-bed"></i> {{listing.rooms|apnumber|capfirst}} room(s)
+                  </div>
+                  <div class="col-6">
+                    <i class="fas fa-bath"></i> Bathrooms
+                  </div>
+                </div>
+                <hr />
+                <div class="row py-2 text-secondary">
+                  <div class="col-12"><i class="fas fa-user"></i> {{listing.doctor.name}} </div>
+                </div>
+                <div class="row text-secondary pb-2">
+                  <div class="col-12">
+                    <i class="fas fa-clock"></i> Reservation required
+                  </div>
+                </div>
+                <hr />
+                <a href="{% url 'listings:listing' listing.id %}" class="btn btn-primary btn-block"
+                  >More Info</a
+                >
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="col-md-6 col-lg-4 mb-4">
+           <p>No data matches your specific criteria.</p>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            {% if listings.has_other_pages %}
+            <ul class="pagination">
+              {% if listings.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{listings.previous_page_number}}">&laquo;</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+              {% endif %}
+              {%for i in listings.paginator.page_range%}
+              {% if listings.number == i %}
+              <li class="page-item active">
+                <a class="page-link">{{i}}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{i}}">{{i}}</a>
+              </li>              
+              {% endif %}
+              {% endfor %}
+              {% if listings.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{listings.next_page_number}}">&raquo;</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&raquo;</a>
+              </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+</section>
+
+{% endblock %}

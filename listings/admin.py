@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import Listing
 # Register your models here.
 class ListingAdmin(admin.ModelAdmin):
-    list_display = 'id', 'title', 'district', 'is_published', 'rooms', 'doctor',
+    list_display = 'id', 'title', 'district', 'is_published', 'rooms', 'doctor', 'room_type'
     list_display_links = 'id', 'title'
-    list_editable = 'rooms', 'is_published'
+    list_editable = 'rooms', 'is_published', 'room_type'
     search_fields = 'title', 'district', 'doctor_name'
     list_per_page = 25
 
