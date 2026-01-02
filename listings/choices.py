@@ -22,7 +22,7 @@ district_choices = {
 room_choices = {
     "Private" : "Private",
     "Semi-private" : "Semi-private",
-    "Standard (Multi-bed)" : "Standard (Multi-bed)"
+    "Standard" : "Standard"
 }
 
 rooms_choices = {
@@ -30,5 +30,9 @@ rooms_choices = {
     "2":"2",
     "3":"3",
     "4":"4",
-    "5":"5"
+    "5":"5",
+    "6":"6",
+    "7":"7",
+    "8":"8",
+    "9":"9"
 }

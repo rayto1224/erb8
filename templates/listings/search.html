@@ -84,11 +84,11 @@
 
 <!-- Listings -->
 <section id="listings" class="py-4">
-      <div class="container">
+    <div class="container">
+        <!-- loop listing -->
         <div class="row">
           {% if listings %}
           {% for listing in listings %}          
-          <!-- Listing 1 -->
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card listing-preview">
               <img
@@ -145,14 +145,14 @@
           </div>
           {% endif %}
         </div>
-
+        <!-- pagination -->
         <div class="row">
           <div class="col-md-12">
             {% if listings.has_other_pages %}
             <ul class="pagination">
               {% if listings.has_previous %}
               <li class="page-item">
-                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{listings.previous_page_number}}">&laquo;</a>
+                <a class="page-link" href="?page={{listings.previous_page_number}}">&laquo;</a>
               </li>
               {% else %}
               <li class="page-item disabled">
@@ -166,13 +166,13 @@
               </li>
               {% else %}
               <li class="page-item">
-                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{i}}">{{i}}</a>
+                <a class="page-link" href="?page={{i}}">{{i}}</a>
               </li>              
               {% endif %}
               {% endfor %}
               {% if listings.has_next %}
               <li class="page-item">
-                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{listings.next_page_number}}">&raquo;</a>
+                <a class="page-link" href="?page={{listings.next_page_number}}">&raquo;</a>
               </li>
               {% else %}
               <li class="page-item disabled">
@@ -183,7 +183,7 @@
             {% endif %}
           </div>
         </div>
-      </div>
+    </div>
 </section>
 
 {% endblock %}
