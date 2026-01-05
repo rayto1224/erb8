@@ -152,7 +152,7 @@
             <ul class="pagination">
               {% if listings.has_previous %}
               <li class="page-item">
-                <a class="page-link" href="?page={{listings.previous_page_number}}">&laquo;</a>
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{listings.previous_page_number}}">&laquo;</a>
               </li>
               {% else %}
               <li class="page-item disabled">
@@ -166,13 +166,13 @@
               </li>
               {% else %}
               <li class="page-item">
-                <a class="page-link" href="?page={{i}}">{{i}}</a>
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{i}}">{{i}}</a>
               </li>              
               {% endif %}
               {% endfor %}
               {% if listings.has_next %}
               <li class="page-item">
-                <a class="page-link" href="?page={{listings.next_page_number}}">&raquo;</a>
+                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{listings.next_page_number}}">&raquo;</a>
               </li>
               {% else %}
               <li class="page-item disabled">
