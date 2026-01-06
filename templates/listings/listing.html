@@ -209,7 +209,7 @@
               <div class="form-group">
                 <label for="name" class="col-form-label">Name:</label>
                 <input type="text" name="name" class="form-control" 
-                {% if user.is_authenticated %} value="{{user.first_name}} {{user.last_name}}" readonly
+                {% if user.is_authenticated %} value="{{user.username}}" readonly
                 {% endif %}
                 />
               </div>

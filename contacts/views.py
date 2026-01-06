@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Contact
 from django.contrib import messages
 # Create your views here.
@@ -22,6 +22,9 @@ def contact(request):
         return redirect('listings:listing',listing_id=listing_id)
 
 def delete_contact(request, contact_id):
+    contact = get_object_or_404(Contact,pk=contact_id)
+    print("Deleting contact:", contact)
+    contact.delete()
     return redirect('accounts:dashboard')
 
 def edit_contact(request, contact_id):
