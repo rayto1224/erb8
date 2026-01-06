@@ -41,7 +41,8 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.humanize'
+    'django.contrib.humanize',
+    'widget_tweaks'
 ]
 
 APPLICATION_APPS = [
@@ -54,6 +55,7 @@ APPLICATION_APPS = [
 
 THIRD_PARTY_APPS = [
     "debug_toolbar",
+    "taggit"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS + THIRD_PARTY_APPS

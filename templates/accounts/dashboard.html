@@ -53,7 +53,8 @@
                     data-toggle="modal"
                     data-target="#deleteConfirmModal"
                     data-id="{{contact.id}}"
-                    > Delete Listing </button>
+                    > Delete message </button>
+                    <a href="{% url 'contacts:edit_contact' contact.id %}" class="btn btn-success">Edit message</a>
                   </td>
                 </tr>
                 {% endfor %}
