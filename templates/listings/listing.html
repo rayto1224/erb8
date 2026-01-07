@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load humanize %}
+{% block title %} | {{ listing.title | title }} {% endblock %}
 {% block content %}
     <section id="showcase-inner" class="py-5 text-white">
       <div class="container">
@@ -144,7 +145,28 @@
                   </li>
                 </ul>
               </div>
+              <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                  {% for profession in listing.professions.all %}
+                  <li class="list-group-item text-secondary">
+                    <i class="fas fa-dumbbell"></i> Professions:
+                    <span class="float-right">{{profession.name | title}}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                  {% for service_tag in listing.services.all %}
+                  <li class="list-group-item text-secondary">
+                    <i class="fas fa-calendar"></i> Services:
+                    <span class="float-right">{{service_tag.name | title}}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
+
 
             <!-- Description -->
             <div class="row mb-5">
@@ -191,6 +213,7 @@
             <form method="POST" action="{% url 'contacts:contact' %}">
               {% csrf_token %}
               <input type="hidden" name="listing_id" value="{{listing.id}}" />
+              <input type="hidden" name="doctor_email" value="{{listing.doctor.email}}" />
               {% if user.is_authenticated %}
               <input type="hidden" name="user_id" value="{{user.id}}" />
               {% else %}
